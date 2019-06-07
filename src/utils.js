@@ -10,6 +10,23 @@ export const split = (value) => {
   return value.split(/\s+/gi).filter(v => v)
 }
 
+export const getColor = (color) => {
+  console.log(color)
+  switch (color) {
+    case "error":
+      return "#f14040"
+    case "warning":
+      return "#f18838"
+    case "success":
+      return "#53b446"
+    case "info":
+      return "#32b7f1"
+    default:
+      return "#32b7f1"
+  }
+      
+}
+
 export const generateId = (list) => {
   let date = (new Date).getTime()
   

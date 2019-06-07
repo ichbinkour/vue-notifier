@@ -4,7 +4,8 @@
   >
     <div v-for="elem in items"
          :key="elem.id"
-         style="border: 1px solid red"
+         :style="contentStyle"
+         @click="deleteItem(elem)"
     >
       {{elem}}
     </div>
@@ -13,7 +14,7 @@
 
 <script>
   import {events} from "../events"
-  import {formatDirection, generateId} from "../utils";
+  import {formatDirection, generateId, getColor} from "../utils";
 
   export default {
     name: "VueNotifier",
@@ -32,7 +33,11 @@
       },
       timeout: {
         type: Number,
-        default: 3000
+        default: 6000
+      },
+      color: {
+        type: String,
+        default: "#32b7f1"
       }
     },
     data: function () {
@@ -74,6 +79,15 @@
       }
     },
     computed: {
+      contentStyle() {
+        console.log(this.color)
+        return {
+          'background-color': getColor(this.color),
+          color: "white",
+          padding: ".5em",
+          "border-left": "6px solid red"
+        }
+      },
       styles() {
         const {x, y} = formatDirection(this.position)
         const width = this.width
@@ -103,50 +117,5 @@
 </script>
 
 <style lang="scss" scoped>
-  @mixin position($position, $top: null,  $right: null, $bottom: null, $left: null) {
-    position: $position;
-    top: $top;
-    right: $right;
-    bottom: $bottom;
-    left: $left;
-    min-width: 300px;
-    min-height: 80px;
-  }
 
-  .overall--top-right {
-    position:fixed;
-    right: 16px;
-    top: 8px;
-  }
-  .overall--top-left {
-    position:fixed;
-    left: 16px;
-    top: 8px;
-  }
-  .overall--bottom-right {
-    position:fixed;
-    right: 16px;
-    bottom: 8px;
-  }
-  .overall--bottom-left {
-    position:fixed;
-    left: 16px;
-    bottom: 8px;
-  }
-  .notifier--top-left {
-    border: 1px solid red;
-    @include position(absolute, $left: 16px, $top: 8px)
-  }
-  .notifier--top-right {
-    border: 1px solid red;
-    @include position(absolute, $right: 16px, $top: 8px)
-  }
-  .notifier--bottom-left {
-    border: 1px solid red;
-    @include position(absolute, $left: 16px, $bottom: 8px)
-  }
-  .notifier--bottom-right {
-    border: 1px solid red;
-    @include position(absolute, $right: 16px, $bottom: 8px)
-  }
 </style>

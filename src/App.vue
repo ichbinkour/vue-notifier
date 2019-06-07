@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <vue-notifier group="topLeft" position="top left"/>
-    <vue-notifier group="topRight" position="top right"/>
-    <vue-notifier group="bottomLeft" position="bottom left"/>
-    <vue-notifier group="bottomRight" position="bottom right"/>
+    <vue-notifier group="topLeft" position="top left"  color="success"/>
+    <vue-notifier group="topRight" position="top right" color="warning"/>
+    <vue-notifier group="bottomLeft" position="bottom left" color="error"/>
+    <vue-notifier group="bottomRight" position="bottom right" color="info"/>
     <div style="position: absolute; top: 45%; left: 40%">
       <h2 style="text-align: center">vue-notifications</h2>
       <button @click="triggerNotifierTopLeft()">top left</button>
@@ -23,17 +23,21 @@
       VueNotifier
     },
     methods: {
+      // Success notification
       triggerNotifierTopLeft() {
-        this.notifier({group: "topLeft", text: "Je suis en haut à gauche"})
+        this.notifier({group: "topLeft", title: "Success notification !", text: "This is a success notification"})
       },
+      // Warning notification
       triggerNotifierTopRight() {
-        this.notifier({group: "topRight", text: "Je suis en haut à droite"})
+        this.notifier({group: "topRight", title: "Warning notification !", text: "This is a warning notification"})
       },
+      // Error notification
       triggerNotifierBottomLeft() {
-        this.notifier({group: "bottomLeft", text: "Je suis en bas à gauche"})
+        this.notifier({group: "bottomLeft", title: "Error notification !", text: "This is an error notification"})
       },
+      // Info notification
       triggerNotifierBottomRight() {
-        this.notifier({group: "bottomRight", text: "Je suis en bas à droite"})
+        this.notifier({group: "bottomRight", title: "Info notification !", text: "This is an info notification"})
       }
     }
   }
