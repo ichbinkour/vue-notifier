@@ -4,20 +4,34 @@
   >
     <div v-for="elem in items"
          :key="elem.id"
-         :style="contentStyle"
-         @click="deleteItem(elem)"
+         class="notification"
     >
-      {{elem}}
+      <v-notification-transition
+          :show="elem.isActive"
+      >
+        <div
+            :style="contentStyle"
+            @click="deleteItem(elem)"
+        >
+          <p class="title">{{elem.title}}</p>
+          <p>{{elem.text}}</p>
+          <p>{{new Date()}}</p>
+        </div>
+      </v-notification-transition>
     </div>
   </div>
 </template>
 
 <script>
+  import VNotificationTransition from "@/components/VNotificationTransition"
   import {events} from "../events"
   import {formatDirection, generateId, getColor} from "../utils";
 
   export default {
     name: "VueNotifier",
+    components: {
+      VNotificationTransition
+    },
     props: {
       position: {
         type: String,
@@ -33,7 +47,7 @@
       },
       timeout: {
         type: Number,
-        default: 6000
+        default: 100000
       },
       color: {
         type: String,
@@ -48,7 +62,6 @@
     methods: {
       deleteItem(item) {
         this.items = this.items.filter((v) => {
-          console.log(item.id, v.id)
           return item.id !== v.id
         })
       },
@@ -82,10 +95,14 @@
       contentStyle() {
         console.log(this.color)
         return {
-          'background-color': getColor(this.color),
+          'background-color': getColor(this.color).main,
           color: "white",
           padding: ".5em",
-          "border-left": "6px solid red"
+          "border-left": "6px solid " + getColor(this.color).border,
+          "-webkit-box-shadow": "-1px 1px 24px 6px rgba(0,0,0,0.75)",
+          "-moz-box-shadow": "-1px 1px 24px 6px rgba(0,0,0,0.75)",
+          "box-shadow": "-1px 1px 7px 0px " + getColor(this.color).main,
+          "font-size": "14px"
         }
       },
       styles() {
@@ -96,7 +113,8 @@
         let styles = {
           width: '300px',
           [y]: '8px',
-          position: "absolute"
+          position: "absolute",
+          "z-index": "999"
         }
 
         if (x === 'center') {
@@ -117,5 +135,16 @@
 </script>
 
 <style lang="scss" scoped>
-
+  .notification {
+    padding: 3px;
+  }
+  .notification {
+    p {
+      margin: 0;
+      font-size: 12px;
+    }
+    .title {
+      font-weight: bold;
+    }
+  }
 </style>

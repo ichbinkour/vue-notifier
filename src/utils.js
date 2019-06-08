@@ -14,13 +14,25 @@ export const getColor = (color) => {
   console.log(color)
   switch (color) {
     case "error":
-      return "#f14040"
+      return {
+        main: "#f14040",
+        border: "#f14040"
+      }
     case "warning":
-      return "#f18838"
+      return {
+        main: "#f18838",
+        border: "#d26e21"
+      }
     case "success":
-      return "#53b446"
+      return {
+        main: "#53b446",
+        border: "#289418"
+      }
     case "info":
-      return "#32b7f1"
+      return {
+        main: "#32b7f1",
+        border: "#1793ca"
+      }
     default:
       return "#32b7f1"
   }
