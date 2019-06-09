@@ -2,23 +2,22 @@
   <div
       :style="styles"
   >
-    <div v-for="elem in items"
-         :key="elem.id"
-         class="notification"
-    >
-      <v-notification-transition
-          :show="elem.isActive"
+    <transition-group name="fade">
+      <div v-for="elem in items"
+           :key="elem.id"
+           class="notification"
       >
-        <div
-            :style="contentStyle"
-            @click="deleteItem(elem)"
-        >
-          <p class="title">{{elem.title}}</p>
-          <p>{{elem.text}}</p>
-          <p>{{new Date()}}</p>
-        </div>
-      </v-notification-transition>
-    </div>
+          <div
+              :style="contentStyle"
+              @click="deleteItem(elem)"
+          >
+            <p class="title">{{elem.title}}</p>
+            <p>{{elem.text}}</p>
+            <p>{{new Date()}}</p>
+            <!--<i v-if="closeIcon" class="fas fa-times"></i>-->
+          </div>
+      </div>
+    </transition-group>
   </div>
 </template>
 
@@ -56,7 +55,8 @@
     },
     data: function () {
       return {
-        items: []
+        items: [],
+        closeIcon: false
       }
     },
     methods: {
@@ -93,7 +93,6 @@
     },
     computed: {
       contentStyle() {
-        console.log(this.color)
         return {
           'background-color': getColor(this.color).main,
           color: "white",
@@ -108,7 +107,6 @@
       styles() {
         const {x, y} = formatDirection(this.position)
         const width = this.width
-        console.log("style =>", x, y)
 
         let styles = {
           width: '300px',
@@ -129,7 +127,6 @@
       events.$on('add', this.addItem)
     },
     created() {
-      console.log(this.position)
     }
   }
 </script>
@@ -146,5 +143,25 @@
     .title {
       font-weight: bold;
     }
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0
+  }
+  .slide-fade-enter-active {
+    transition: all .3s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-to
+    /* .slide-fade-leave-active below version 2.1.8 */ {
+    transform: translateX(10px);
+    opacity: 0;
   }
 </style>
