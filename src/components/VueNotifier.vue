@@ -1,6 +1,7 @@
 <template>
   <div
       :style="styles"
+      id="app"
   >
     <transition-group name="fade">
       <div v-for="elem in items"
@@ -22,15 +23,11 @@
 </template>
 
 <script>
-  import VNotificationTransition from "@/components/VNotificationTransition"
   import {events} from "../events"
   import {formatDirection, generateId, getColor} from "../utils";
 
   export default {
     name: "VueNotifier",
-    components: {
-      VNotificationTransition
-    },
     props: {
       position: {
         type: String,
@@ -85,7 +82,6 @@
         if (this.timeout >= 0) {
           let interval = setInterval(function () {
             vm.deleteItem(item)
-            console.log("DELETE")
             clearInterval(interval)
           }, item.timeout)
         }
@@ -132,6 +128,11 @@
 </script>
 
 <style lang="scss" scoped>
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
   .notification {
     padding: 3px;
   }
