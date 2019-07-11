@@ -1,31 +1,26 @@
+import VueNotifier from "./VueNotifier"
 import Vue from "vue"
-import {events} from "../events"
 
-const Notification = {
-  install(Vue, args = {}) {
-    this.params = args
-    
-    Vue.component('notifications', Notification)
-    
-    const notify = (params) => {
-      if (typeof params === 'string') {
-        params = { title: '', text: params}
-      }
-      
-      if (typeof params == 'object') {
-        events.$emit('add', params)
-      }
-      
-      const name = args.name || 'notify'
-      
-      Vue.prototype['$' + name] = notify
-      Vue[name] = notify
-    }
-  }
+export function install(Vue) {
+  if (install.installed) return;
+  install.installed = true;
+  Vue.component('VueNotifier', VueNotifier)
 }
 
-Object.keys(Notification).forEach(name => {
-  Vue.components(name, Notification[name])
-})
+const plugin =  {
+  install
+}
 
-export default Notification
+let GlobalVue = null;
+if (typeof window !== 'undefined') {
+	GlobalVue = window.Vue;
+} else if (typeof global !== 'undefined') {
+	GlobalVue = global.Vue;
+}
+if (GlobalVue) {
+	GlobalVue.use(plugin);
+}
+
+// To allow use as module (npm/webpack/etc.) export component
+export default VueNotifier;
+

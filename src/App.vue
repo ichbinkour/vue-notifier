@@ -11,16 +11,19 @@
       <button @click="triggerNotifierBottomLeft()">bottom left</button>
       <button @click="triggerNotifierBottomRight()">bottom right</button>
     </div>
+    <banner></banner>
   </div>
 </template>
 
 <script>
+  import Banner from "@ichbinkour/vue-banner-test"
   import VueNotifier from "./components/VueNotifier"
 
   export default {
     name: 'app',
     components: {
-      VueNotifier
+      VueNotifier,
+      Banner
     },
     methods: {
       // Success notification
